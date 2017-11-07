@@ -1,6 +1,7 @@
 asustor-node
 ============
 [![Build Status](https://travis-ci.org/rimaulana/asustor-node.svg?branch=master)](https://travis-ci.org/rimaulana/asustor-node)
+[![Coverage Status](https://coveralls.io/repos/github/rimaulana/asustor-node/badge.svg)](https://coveralls.io/github/rimaulana/asustor-node)
 
 A node module to get files and removable storage information from ASUSTOR NAS running on Ubuntu OS
 
