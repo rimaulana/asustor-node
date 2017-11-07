@@ -1,0 +1,26 @@
+{
+    "name": "asustor-node",
+    "version": "0.1.0",
+    "description": "node module to get information on ASUSTOR NAS storage",
+    "main": "index.js",
+    "engines": {
+        "node": ">=6.10.0"
+    },
+    "scripts": {
+        "test": "mocha --reporter spec"
+    },
+    "keywords": [
+        "asustor",
+        "nas"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rimaulana/asustor-node.git"
+    },
+    "author": "Rio Maulana <rimaulana@outlook.com> (https://github.com/rimaulana)",
+    "license": "MIT",
+    "devDependencies": {
+        "chai": "^4.1.2",
+        "mocha": "^4.0.1"
+    }
+}
