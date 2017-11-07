@@ -1,5 +1,5 @@
 {
-    "name": "asustor-node",
+    "name": "@rimaulana/asustor-node",
     "version": "0.1.0",
     "description": "node module to get information on ASUSTOR NAS storage",
     "main": "index.js",
@@ -9,10 +9,7 @@
     "scripts": {
         "test": "mocha --reporter spec"
     },
-    "keywords": [
-        "asustor",
-        "nas"
-    ],
+    "keywords": ["asustor", "nas"],
     "repository": {
         "type": "git",
         "url": "https://github.com/rimaulana/asustor-node.git"
