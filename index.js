@@ -2,42 +2,52 @@
 var child = require("child_process");
 
 module.exports = {
-    folderInfo: getFolderInfo,
-    usbInfo: getUSBInfo,
-    fileInfo: getFileInfo,
-    folderInfoSync: getFolderInfoSync,
-    usbInfoSync: getUSBInfoSync,
-    fileInfoSync: getFileInfoSync
+    folderInfo,
+    usbInfo,
+    fileInfo,
+    folderInfoSync,
+    usbInfoSync,
+    fileInfoSync
 };
 
-function getFileInfo(fileName, callback) {
+function fileInfo(fileName, callback) {
     var totalSize = 0;
-    var dirPath = fileName.endsWith("/") ? fileName.slice(0, -1) : fileName;
+    var files = [];
     var callbackFunction = callback || function() {};
-    if (typeof callbackFunction !== "function") {
-        callbackFunction = function() {};
-    }
-    child.exec("du -s " + dirPath, (error, stdout, stderr) => {
-        if (error) {
-            callbackFunction(error, { totalSize: totalSize, files: files });
-        } else {
-            var raw = stdout.toString().split("\n");
-            for (var i = 0; i < raw.length; i++) {
-                var parse = raw[i].match(/^([0-9]+)(?:\s+)?(.*)$/);
-                if (parse) {
-                    files.push({ path: parse[2], size: parseInt(parse[1]) });
-                    totalSize += parseInt(parse[1]);
+    if (typeof fileName === "function") {
+        var error = new Error("fileName cannot be empty");
+        error.code = 1;
+        fileName(error, null);
+    } else if (typeof fileName !== "string") {
+        var error = new Error("fileName needs to be string");
+        error.code = 1;
+        callbackFunction(error, null);
+    } else {
+        var dirPath = fileName.endsWith("/") ? fileName.slice(0, -1) : fileName;
+        child.exec("du -s " + dirPath, (error, stdout, stderr) => {
+            if (error) {
+                callbackFunction(error, { totalSize: totalSize, files: files });
+            } else {
+                var raw = stdout.toString().split("\n");
+                for (var i = 0; i < raw.length; i++) {
+                    var parse = raw[i].match(/^([0-9]+)(?:\s+)?(.*)$/);
+                    if (parse) {
+                        files.push({ path: parse[2], size: parseInt(parse[1]) });
+                        totalSize += parseInt(parse[1]);
+                    }
                 }
+                callbackFunction(null, { totalSize: totalSize, files: files });
             }
-            callbackFunction(null, { totalSize: totalSize, files: files });
-        }
-    });
+        });
+    }
 }
 
-function getFileInfoSync(fileName) {
+function fileInfoSync(fileName) {
     var totalSize = 0;
-    var dirPath = fileName.endsWith("/") ? fileName.slice(0, -1) : fileName;
+    var files = [];
     try {
+        var dirPath = fileName || ".";
+        dirPath = dirPath.endsWith("/") ? dirPath.slice(0, -1) : dirPath;
         var oProcess = child.execSync("du -s " + dirPath);
         var raw = oProcess.toString().split("\n");
         for (var i = 0; i < raw.length; i++) {
@@ -52,7 +62,7 @@ function getFileInfoSync(fileName) {
     }
 }
 
-function getUSBInfo(callback) {
+function usbInfo(callback) {
     var Drives = [];
     var totalAvailableSpace = 0;
     var callbackFunction = callback || function() {};
@@ -76,7 +86,7 @@ function getUSBInfo(callback) {
     });
 }
 
-function getUSBInfoSync() {
+function usbInfoSync() {
     var Drives = [];
     var totalAvailableSpace = 0;
     try {
@@ -95,18 +105,20 @@ function getUSBInfoSync() {
     }
 }
 
-function getFolderInfo(FolderName, callback) {
+function folderInfo(FolderName, callback) {
     var files = [];
     var totalSize = 0;
-    var folder = FolderName || "./";
-    var dirPath = folder.endsWith("/") ? folder + "*" : folder + "/*";
     var callbackFunction = callback || function() {};
-    if (typeof callbackFunction !== "function") {
-        callbackFunction = function() {};
+    if (typeof FolderName === "function") {
+        callbackFunction = FolderName;
+        var folder = "./";
+    } else {
+        var folder = FolderName || "./";
     }
+    var dirPath = folder.endsWith("/") ? folder + "*" : folder + "/*";
     child.exec("du -s " + dirPath, (error, stdout, stderr) => {
         if (error) {
-            callbackFunction(error, { totalSize: totalSize, files: files });
+            callbackFunction(error, null);
         } else {
             var raw = stdout.toString().split("\n");
             for (var i = 0; i < raw.length; i++) {
@@ -121,7 +133,7 @@ function getFolderInfo(FolderName, callback) {
     });
 }
 
-function getFolderInfoSync(FolderName) {
+function folderInfoSync(FolderName) {
     var files = [];
     var totalSize = 0;
     var folder = FolderName || "./";
