@@ -77,7 +77,7 @@ function usbInfo(callback) {
             for (var i = 0; i < aLines.length; i++) {
                 var parse = aLines[i].match(/^(?!(?:\/dev\/md[0-9]+))\S+\s+[0-9]+\s+[0-9]+\s+([0-9]+)\s+[0-9]+\%\s+(.+USB[0-9]+)$/);
                 if (parse) {
-                    Drives.push({ name: parse[2], size: parseInt(parse[1]) });
+                    Drives.push({ name: parse[2], size: parseInt(parse[1]), index: parseInt(parse[2].match(/.+([0-9]+)/)[1]) });
                     totalAvailableSpace += parseInt(parse[1]);
                 }
             }
@@ -96,7 +96,7 @@ function usbInfoSync() {
         for (var i = 0; i < aLines.length; i++) {
             var parse = aLines[i].match(/^(?!(?:\/dev\/md[0-9]+))\S+\s+[0-9]+\s+[0-9]+\s+([0-9]+)\s+[0-9]+\%\s+(.+USB[0-9]+)$/);
             if (parse) {
-                Drives.push({ name: parse[2], size: parseInt(parse[1]) });
+                Drives.push({ name: parse[2], size: parseInt(parse[1]), index: parseInt(parse[2].match(/.+([0-9]+)/)[1]) });
                 totalAvailableSpace += parseInt(parse[1]);
             }
         }
