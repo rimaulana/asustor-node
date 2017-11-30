@@ -1,10 +1,5 @@
-asustor-node
-============
-[![Build Status](https://travis-ci.org/rimaulana/asustor-node.svg?branch=master)](https://travis-ci.org/rimaulana/asustor-node)
-[![CircleCI](https://circleci.com/gh/rimaulana/asustor-node/tree/master.svg?style=svg)](https://circleci.com/gh/rimaulana/asustor-node/tree/master)
-[![codecov](https://codecov.io/gh/rimaulana/asustor-node/branch/master/graph/badge.svg)](https://codecov.io/gh/rimaulana/asustor-node)
-[![Coverage Status](https://coveralls.io/repos/github/rimaulana/asustor-node/badge.svg?branch=master)](https://coveralls.io/github/rimaulana/asustor-node?branch=master)
-
+# ASUSTOR Node
+[![CircleCI](https://img.shields.io/circleci/project/github/rimaulana/asustor-node.svg)](https://circleci.com/gh/rimaulana/asustor-node/tree/master) [![codecov](https://codecov.io/gh/rimaulana/asustor-node/branch/master/graph/badge.svg)](https://codecov.io/gh/rimaulana/asustor-node) [![Coveralls github](https://img.shields.io/coveralls/github/rimaulana/asustor-node.svg)](https://coveralls.io/github/rimaulana/asustor-node?branch=master)
 A node module to get files and removable storage information from ASUSTOR NAS running on Ubuntu OS
 
 ## Installation
