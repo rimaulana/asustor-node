@@ -3,12 +3,6 @@ jobs:
     machine:
       image: circleci/classic:edge
     steps:
-      - run:
-          name: Creating virtual USB1
-          command: mkfs -q /dev/ram1 1024 && mkdir -p /share/USB1 && mount /dev/ram1 /share/USB1
-      - run:
-          name: Creating virtual USB2
-          command: mkfs -q /dev/ram2 1024 && mkdir -p /share/USB2 && mount /dev/ram2 /share/USB2
       - checkout
       - run:
           name: Installing dependencies
