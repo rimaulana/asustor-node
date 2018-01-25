@@ -1,27 +1,27 @@
 import * as child from "child_process";
 
-interface task {
+export interface task {
     type: string;
     input: string;
 }
 
-interface usb {
+export interface usb {
     size: number;
     name: string;
     index: number;
 }
 
-interface usbList {
+export interface usbList {
     drives: collection[];
     totalAvailableSpace: number;
 }
 
-interface file {
+export interface file {
     path: string;
     size: number;
 }
 
-type collection = usb | file;
+export type collection = usb | file;
 
 function getTotalSize(collection: collection[]): number {
     var total: number = 0;
@@ -32,13 +32,22 @@ function getTotalSize(collection: collection[]): number {
 }
 
 function sanitizePath(type: string, input?: string): string {
-    var result: string;
+    var result: string = input || "./";
     if (type === "folder") {
-        result = input || "./";
         result = result.endsWith("/") ? result + "*" : result + "/*";
     } else {
-        result = input || ".";
         result = result.endsWith("/") ? result.slice(0, -1) : result;
+    }
+    return result;
+}
+
+function extract(regex: RegExp, input: string[]): RegExpMatchArray[] {
+    var result: RegExpMatchArray[] = new Array();
+    for (var i = 0; i < input.length; i++) {
+        var parse = input[i].match(regex);
+        if (parse) {
+            result.push(parse);
+        }
     }
     return result;
 }
@@ -53,9 +62,9 @@ function parser(params: task): Array<collection> {
     // removing empty string
     raw = raw.filter(item => item.length > 0);
 
-    // iterate on every elemen in raw
+    // iterate on every element in raw
     raw.map(function(line) {
-        var parse: string[] = line.match(regex);
+        var parse: RegExpMatchArray | null = line.match(regex);
         if (parse) {
             if (params.type === "usb") {
                 result.push({
@@ -74,7 +83,7 @@ function parser(params: task): Array<collection> {
     return result;
 }
 
-function usbInfo(callback: Function): void {
+export function usbInfo(callback: Function): void {
     child.exec("df -P | awk 'NR > 1'", (error, stdout, stderr) => {
         if (error) {
             callback(error, null);
@@ -91,7 +100,7 @@ function usbInfo(callback: Function): void {
     });
 }
 
-function usbInfoSync(): usbList {
+export function usbInfoSync(): usbList {
     var result: usbList = {
         drives: new Array(),
         totalAvailableSpace: 0
