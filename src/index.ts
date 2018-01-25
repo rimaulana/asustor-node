@@ -12,7 +12,7 @@ interface usb {
 }
 
 interface usbList {
-    drives: usb[];
+    drives: collection[];
     totalAvailableSpace: number;
 }
 
@@ -21,7 +21,9 @@ interface file {
     size: number;
 }
 
-function getTotalSize(collection: (usb | file)[]): number {
+type collection = usb | file;
+
+function getTotalSize(collection: collection[]): number {
     var total: number = 0;
     collection.map(function(item) {
         total += item.size;
@@ -41,8 +43,8 @@ function sanitizePath(type: string, input?: string): string {
     return result;
 }
 
-function parser(params: task): Array<usb | file> {
-    var result: Array<usb | file> = new Array();
+function parser(params: task): Array<collection> {
+    var result: Array<collection> = new Array();
     var raw: string[] = params.input.split("\n");
     var regex: RegExp = /^([0-9]+)(?:\s+)?(.*)$/;
     if (params.type === "usb") {
@@ -100,6 +102,7 @@ function usbInfoSync(): usbList {
             type: "usb",
             input: output.toString()
         });
+        result.totalAvailableSpace = getTotalSize(result.drives);
     } finally {
         return result;
     }
