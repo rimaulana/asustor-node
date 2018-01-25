@@ -21,10 +21,12 @@
     "author": "Rio Maulana <rimaulana@outlook.com> (https://github.com/rimaulana)",
     "license": "MIT",
     "devDependencies": {
+        "@types/node": "^9.3.0",
         "chai": "^4.1.2",
         "coveralls": "^3.0.0",
         "istanbul": "^0.4.5",
         "mocha": "^4.0.1",
-        "sinon": "^4.1.3"
+        "sinon": "^4.1.3",
+        "typescript": "^2.6.2"
     }
 }
