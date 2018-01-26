@@ -9,9 +9,6 @@ jobs:
           name: Installing dependencies
           command: npm install --dev
       - run:
-          name: Building .js and .d.ts file
-          command: npm run build
-      - run:
           name: Running tests
           command: npm run cover
       - run:
@@ -20,3 +17,6 @@ jobs:
       - run:
           name: Upload test result to codeclimate
           command: codeclimate-test-reporter < coverage/lcov.info
+      - run:
+          name: Upload test result to codecov
+          command: bash <(curl -s https://codecov.io/bash)
