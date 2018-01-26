@@ -1,6 +1,6 @@
 # ASUSTOR Node
 
-[![CircleCI](https://img.shields.io/circleci/project/github/rimaulana/asustor-node.svg)](https://circleci.com/gh/rimaulana/asustor-node/tree/master) [![codecov](https://codecov.io/gh/rimaulana/asustor-node/branch/master/graph/badge.svg)](https://codecov.io/gh/rimaulana/asustor-node) [![Coveralls github](https://img.shields.io/coveralls/github/rimaulana/asustor-node.svg)](https://coveralls.io/github/rimaulana/asustor-node?branch=master) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+![DefinitelyTyped](https://img.shields.io/badge/DefinitelyTyped-.d.ts-blue.svg) [![CircleCI](https://img.shields.io/circleci/project/github/rimaulana/asustor-node.svg)](https://circleci.com/gh/rimaulana/asustor-node/tree/master) [![codecov](https://codecov.io/gh/rimaulana/asustor-node/branch/master/graph/badge.svg)](https://codecov.io/gh/rimaulana/asustor-node) [![codebeat badge](https://codebeat.co/badges/3f55e8bc-c264-434c-abd2-02473421cb65)](https://codebeat.co/projects/github-com-rimaulana-asustor-node-master) [![Maintainability](https://api.codeclimate.com/v1/badges/33cf960c68a9a198b820/maintainability)](https://codeclimate.com/github/rimaulana/asustor-node/maintainability) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 A node module to get files and removable storage information from ASUSTOR NAS running on Ubuntu OS
 
