@@ -16,6 +16,14 @@ export interface fileList {
     totalSize: number;
 }
 
+function initUsbList(): usbList {
+    return { drives: new Array(), totalAvailableSpace: 0 };
+}
+
+function initFileList(): fileList {
+    return { files: new Array(), totalSize: 0 };
+}
+
 function getTotalSize(collection: collection[]): number {
     var total: number = 0;
     collection.map(function(item) {
@@ -105,35 +113,38 @@ function parser(type: string, input: string): Array<collection> {
     return result;
 }
 
-function exec(command: string, type: string, callback: Function): void {
+function execFile(command: string, type: string, callback: Function): void {
+    child.exec("du -s " + sanitizePath(type, command), (error, stdout, stderr) => {
+        if (error) {
+            callback(error, initFileList());
+        } else {
+            var files = parser("file", stdout.toString());
+            callback(null, {
+                files: files,
+                totalSize: getTotalSize(files)
+            });
+        }
+    });
+}
+
+function execUsb(command: string, type: string, callback: Function): void {
     child.exec(command, (error, stdout, stderr) => {
         if (error) {
-            callback(error, null);
+            callback(error, initUsbList());
         } else {
-            var data = parser(type, stdout.toString());
-            var size: number = getTotalSize(data);
-            if (type == "usb") {
-                callback(null, {
-                    totalAvailableSpace: size,
-                    drives: data
-                });
-            } else {
-                callback(null, {
-                    totalSize: size,
-                    files: data
-                });
-            }
+            var drives = parser("usb", stdout.toString());
+            callback(null, {
+                drives: drives,
+                totalAvailableSpace: getTotalSize(drives)
+            });
         }
     });
 }
 
 function execFileSync(path: string, type: string): fileList {
-    var result: fileList = {
-        files: new Array(),
-        totalSize: 0
-    };
+    var result: fileList = initFileList();
     try {
-        var output = child.execSync("du -s " + sanitizePath(path));
+        var output = child.execSync("du -s " + sanitizePath(type, path));
         result.files = parser(type, output.toString());
         result.totalSize = getTotalSize(result.files);
     } finally {
@@ -142,22 +153,19 @@ function execFileSync(path: string, type: string): fileList {
 }
 
 export function usbInfo(callback: Function): void {
-    exec("df -P | awk 'NR > 1'", "usb", callback);
+    execUsb("df -P | awk 'NR > 1'", "usb", callback);
 }
 
 export function fileInfo(fileName: string, callback: Function): void {
-    exec("du -s " + sanitizePath("file", fileName), "file", callback);
+    execFile(fileName, "file", callback);
 }
 
 export function folderInfo(folderName: string, callback: Function): void {
-    exec("du -s " + sanitizePath("folder", folderName), "folder", callback);
+    execFile(folderName, "folder", callback);
 }
 
 export function usbInfoSync(): usbList {
-    var result: usbList = {
-        drives: new Array(),
-        totalAvailableSpace: 0
-    };
+    var result: usbList = initUsbList();
     try {
         var output = child.execSync("df -P | awk 'NR > 1'");
         result.drives = parser("usb", output.toString());
