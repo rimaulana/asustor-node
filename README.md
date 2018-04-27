@@ -15,7 +15,7 @@ npm install @rimaulana/asustor-node
 Getting attached USB drives information :
 
 ```javascript
-var asustor = require("asustor-node");
+var asustor = require("@rimaulana/asustor-node");
 
 // Asynchronous
 asustor.usbInfo(function(error, data) {
@@ -33,7 +33,7 @@ console.log(asustor.usbInfoSync());
 Getting File information :
 
 ```javascript
-var asustor = require("asustor-node");
+var asustor = require("@rimaulana/asustor-node");
 var file_path = "/home/user/file.mkv";
 
 // Asynchronous
@@ -52,7 +52,7 @@ console.log(asustor.fileInfoSync(file_path));
 Getting Folder information :
 
 ```javascript
-var asustor = require("asustor-node");
+var asustor = require("@rimaulana/asustor-node");
 var folder_path = "/home/user";
 
 // Asynchronous
